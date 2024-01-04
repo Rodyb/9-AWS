@@ -3,7 +3,7 @@
 pipeline {
    agent any
    environment {
-        DIGITAL_OCEAN_IP = credentials('jenkins_id').toString()
+        DIGITAL_OCEAN_IP = credentials('jenkins_id')
     }
     stages {
         stage('Update version') {
