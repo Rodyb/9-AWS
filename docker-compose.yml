@@ -1,0 +1,12 @@
+version: '3'
+services:
+  node_app:
+    image: rodybothe2/node-app-new:${IMAGE}
+    ports:
+      - 3000:3000
+    networks:
+      - my_network
+    command: node server.js
+
+networks:
+  my_network:

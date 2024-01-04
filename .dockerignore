@@ -1,0 +1,11 @@
+# .dockerignore
+
+exercises/1-iam.sh
+exercises/2-configure.sh
+exercises/3-vpc.sh
+exercises/4-ec2.sh
+exercises/5-ssh.sh
+Jenkinsfile
+MyKpCli.pem
+output.log
+README.md
