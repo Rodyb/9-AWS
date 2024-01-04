@@ -3,7 +3,7 @@
 pipeline {
     agent any
     stages {
-        stage('increment version') {
+        stage('Update version') {
             steps {
                 script {
                     dir("app") {
@@ -18,9 +18,9 @@ pipeline {
         stage('Docker build and push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh "docker build -t rodybothe2/node:${IMAGE_NAME} ."
+                    sh "docker build -t rodybothe2/node-app-new:${IMAGE_NAME} ."
                     sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh "docker push rodybothe2/node:${IMAGE_NAME}"
+                    sh "docker push rodybothe2/node-app-new:${IMAGE_NAME}"
                 }
             }
         }
@@ -29,12 +29,11 @@ pipeline {
                 script {
                     def dockerCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
                     def ec2Instance = "ec2-user@3.121.174.25"
-                    sshagent(['ec2-user']) {
-//                         sh "scp -tt -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
-                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh docker-compose.yml ${ec2Instance}:~/"
 
-//                         sh "scp -tt -o StrictHostKeyChecking=no docker-compose.yml ${ec2Instance}:/home/ec2-user"
-//                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
+                    sshagent(['ec2-user']) {
+                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh docker-compose.yml ${ec2Instance}:~/"
+                        sh "scp -o StrictHostKeyChecking=no docker-compose.yml ${ec2Instance}:~/"
+                        sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
                     }
                 }
             }
