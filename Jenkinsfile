@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Deploy to EC2') {
             steps {
-                withCredentials([string(credentialsId: 'test_cred', variable: 'test')]) {
+                withCredentials([string(credentialsId: 'jenkins_id', variable: 'test')]) {
 
                 script {
                     def dockerCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
