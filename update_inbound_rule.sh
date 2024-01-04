@@ -14,7 +14,7 @@ if [ -z "$SECURITY_GROUP_ID" ]; then
 fi
 
 # AWS CLI command to modify the inbound rules of the security group
-$AWS_CLI_PATH ec2 authorize-security-group-ingress \
+aws ec2 authorize-security-group-ingress \
     --group-id "${SECURITY_GROUP_ID}" \
     --protocol tcp \
     --port 3000 \
