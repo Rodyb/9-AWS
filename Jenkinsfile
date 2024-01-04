@@ -34,7 +34,7 @@ pipeline {
                 script {
                     def dockerCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
                     def ec2Instance = "ec2-user@3.121.174.25"
-                    echo "DIGITAL_OCEAN_IP: ${DIGITAL_OCEAN_IP}"
+//                     echo "DIGITAL_OCEAN_IP: $DIGITAL_OCEAN_IP"
 
                     sshagent(['ec2-user']) {
                         sh "scp -o StrictHostKeyChecking=no server-cmds.sh docker-compose.yml ${ec2Instance}:~/"
@@ -43,7 +43,7 @@ pipeline {
                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
                         sh '''
 ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 << 'EOF'
-     echo ${test}
+     echo $test
     ./update_inbound_rule.sh ${DIGITAL_OCEAN_IP}
 EOF
                             '''
