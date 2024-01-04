@@ -30,9 +30,11 @@ pipeline {
                     def dockerCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
                     def ec2Instance = "ec2-user@3.121.174.25"
                     sshagent(['ec2-user']) {
-                        sh "scp -tt -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
-                        sh "scp -tt -o StrictHostKeyChecking=no docker-compose.yml ${ec2Instance}:/home/ec2-user"
-                        sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
+//                         sh "scp -tt -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
+                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh docker-compose.yml ${ec2Instance}:~/"
+
+//                         sh "scp -tt -o StrictHostKeyChecking=no docker-compose.yml ${ec2Instance}:/home/ec2-user"
+//                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
                     }
                 }
             }
