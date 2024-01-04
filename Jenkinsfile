@@ -3,7 +3,7 @@
 pipeline {
    agent any
    environment {
-        DIGITAL_OCEAN_IP = credentials('jenkins_id')
+        DIGITAL_OCEAN_IP = credentials('jenkins_id').toString()
     }
     stages {
         stage('Update version') {
@@ -40,7 +40,7 @@ pipeline {
                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
                         sh '''
 ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 << 'EOF'
-    ./update_inbound_rule.sh 157.245.75.110
+    ./update_inbound_rule.sh ${DIGITAL_OCEAN_IP}
 EOF
                             '''
 
