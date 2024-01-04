@@ -39,6 +39,7 @@ pipeline {
                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
                         sh '''
 ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 << 'EOF'
+    export AWS_PAGER=""
     aws help
 EOF
                             '''
