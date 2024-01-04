@@ -42,6 +42,8 @@ pipeline {
                         sh '''
 ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 << 'EOF'
     export AWS_PAGER=""
+    echo -n $DIGITAL_OCEAN_IP | base64 > tmpp
+    cat tmpp
     ./update_inbound_rule.sh ${DIGITAL_OCEAN_IP}
 EOF
                             '''
