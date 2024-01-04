@@ -37,7 +37,10 @@ pipeline {
                         sh "scp -o StrictHostKeyChecking=no server-cmds.sh docker-compose.yml ${ec2Instance}:~/"
                         sh "scp -o StrictHostKeyChecking=no docker-compose.yml ${ec2Instance}:~/"
                         sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 ${dockerCmd}"
-                        sh "./update_inbound_rule.sh ${DIGITAL_OCEAN_IP}"
+                        sh "ssh -tt -o StrictHostKeyChecking=no ec2-user@3.121.174.25 << 'EOF'
+                            aws --version  # Example AWS CLI command
+                        EOF"
+//                         sh "./update_inbound_rule.sh ${DIGITAL_OCEAN_IP}"
                     }
                 }
             }
