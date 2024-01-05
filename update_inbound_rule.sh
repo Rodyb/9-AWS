@@ -13,9 +13,18 @@ if [ -z "$SECURITY_GROUP_ID" ]; then
     exit 1
 fi
 
-# AWS CLI command to modify the inbound rules of the security group
-aws ec2 authorize-security-group-ingress \
-    --group-id "${SECURITY_GROUP_ID}" \
-    --protocol tcp \
-    --port 3000 \
-    --cidr "${DIGITAL_OCEAN_IP}"/32
+# Check if port 3000 is already open in the security group
+EXISTING_RULE=$(aws ec2 describe-security-groups --group-id "${SECURITY_GROUP_ID}" | jq -e '.SecurityGroups[0].IpPermissions[] | select(.ToPort == 3000)' > /dev/null && echo "true" || echo "false")
+
+if [ "$EXISTING_RULE" == "true" ]; then
+    echo "Port 3000 is already open in the security group."
+else
+    echo "Port 3000 is not open in the security group. Adding rule..."
+    aws ec2 authorize-security-group-ingress \
+        --group-id "${SECURITY_GROUP_ID}" \
+        --protocol tcp \
+        --port 3000 \
+        --cidr "${DIGITAL_OCEAN_IP}"/32
+
+    echo "Rule added for port 3000."
+fi
