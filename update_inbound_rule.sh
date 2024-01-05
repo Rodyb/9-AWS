@@ -2,7 +2,7 @@
 
 # Security Group Name
 SECURITY_GROUP_NAME="security-group-docker-server"
-EXPORT DIGITAL_OCEAN_IP=$1
+export DIGITAL_OCEAN_IP=$1
 
 # Get the Security Group ID based on its name
 SECURITY_GROUP_ID=$(aws ec2 describe-security-groups --group-names "${SECURITY_GROUP_NAME}" --query 'SecurityGroups[0].GroupId' --output text)
