@@ -20,6 +20,8 @@ if [ "$EXISTING_RULE" == "true" ]; then
     echo "Port 3000 is already open in the security group."
 else
     echo "Port 3000 is not open in the security group. Adding rule..."
+    export AWS_PAGER=""
+
     aws ec2 authorize-security-group-ingress \
         --group-id "${SECURITY_GROUP_ID}" \
         --protocol tcp \
